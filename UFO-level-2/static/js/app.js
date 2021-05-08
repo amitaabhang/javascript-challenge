@@ -3,8 +3,12 @@ var allData = data;
 
 // Get a reference to the table body
 var tbody = d3.select("tbody");
-
-// YOUR CODE HERE!
+var button = d3.select("#filter-btn");
+var dateinput = d3.select("#datetime");
+var cityinput =d3.select('#citi');
+var stateinput = d3.select('#state');
+var countryinput = d3.select('#country');
+var shapeinput = d3.select('#shape');
 
 allData.forEach(displaySightingData);
 
@@ -17,77 +21,66 @@ function displaySightingData(sightings)
     });
 }
 
-
-  var dateinput = d3.select("#datetime");
-  var newDate =""
- 
-  dateinput.on("change", function() {
-    var newText = d3.event.target.value;
-    console.log(newText);
-    newDate= newText
-  });
-
-  var button = d3.select("#filter-btn");
  
   button.on("click", function() {
-    /*console.log('Button clicked');
-    if(newDate!=""){
-      filteredData = (filterDataByDate(newDate, citi, state, country, shape ));
-      removeTableBody();
-      filteredData.forEach(displaySightingData);
-    }*/
+    d3.event.preventDefault(); 
+    console.log('Button clicked');
+
+    var filterDate = dateinput.property("value").trim();
+    var filterCity = cityinput.property("value").trim();
+    var filterState = stateinput.property("value").trim();
+    var filterCountry = countryinput.property("value").trim();
+    var filterShape = shapeinput.property("value").trim();
+
+    tbody.html("");
+
+    filteredByDateData = (filterDataByDate(filterDate));
+    filteredByCityData = (filterDataByCity(filterCity));
+    filteredByStateData = (filterDataByState(filterState));
+    filteredByCountryData = (filterDataByCountry(filterCountry));
+    filteredByShapeData = (filterDataByShape(filterShape));
+
+    //console.log(`Filtered Data ${filteredData}`)
+    //filteredData.forEach(showData);
+
+    filteredByDateData.forEach(displaySightingData);
+    filteredByCityData.forEach(displaySightingData);
+    filteredByStateData.forEach(displaySightingData);
+    filteredByCountryData.forEach(displaySightingData);
+    filteredByShapeData.forEach(displaySightingData);
+        
   });
 
 
-    
-  var cityinput =d3.select('#citi');
-  var citi =''
-
-  cityinput.on("change", function() {
-    var newText = d3.event.target.value;
-    console.log(newText);
-    citi= newText
-  });
- 
-
-
-  var stateinput = d3.select('#state');
-  var state =''
-
-  stateinput.on("change", function() {
-    var newText = d3.event.target.value;
-    console.log(newText);
-    state= newText
-  });
-  
-
-  var countryinput = d3.select('#country');
-  var country =''
-
-  countryinput.on("change", function() {
-    var newText = d3.event.target.value;
-    console.log(newText);
-    country= newText
-  });
-
-
-  var shapeinput = d3.select('#shape');
-  var shape =''
-
-  shapeinput.on("change", function() {
-    var newText = d3.event.target.value;
-    console.log(newText);
-    shape= newText
-  });
-
-
-  function filterDataByDate(date, city, state, country, shape)
+  function filterDataByDate(date)
   {
-    return allData.filter(dt => dt.datetime == date && dt.city == city  && dt.state == state&& dt.country == country  && dt.shape == shape )
+    return allData.filter(dt => dt.datetime == date)
   }
-  
 
-  function removeTableBody(){
-    d3.event.preventDefault();
-    $tbody.html("");
+  function filterDataByCity(city)
+  {
+    return allData.filter(dt => dt.city == city)
+  }
+
+  function filterDataByState(state)
+  {
+    return allData.filter(dt => dt.state == state)
+  }
+
+  function filterDataByCountry(country)
+  {
+    return allData.filter(dt => dt.country == country)
+  }
+
+  function filterDataByShape(shape)
+  {
+    return allData.filter(dt => dt.shape == shape)
+  }
+
+
+  function showData(data)
+  {
+    Object.entries(data).forEach(([key, value]) => {
+      console.log(`key ${key} Value ${value}`)
+    });
   }

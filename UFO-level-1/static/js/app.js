@@ -26,11 +26,16 @@ function displaySightingData(sightings)
 
   //Handle button click event
   button.on("click", function() {
+
   d3.event.preventDefault();   
   console.log('Button clicked');
+
   var newDate = dateinput.property("value").trim();
+
   tbody.html("");
+
   filteredData = (filterDataByDate(newDate));
+  
   filteredData.forEach(displaySightingData);
  
   });
