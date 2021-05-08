@@ -30,12 +30,12 @@ function displaySightingData(sightings)
   var button = d3.select("#filter-btn");
  
   button.on("click", function() {
-    console.log('Button clicked');
+    /*console.log('Button clicked');
     if(newDate!=""){
       filteredData = (filterDataByDate(newDate, citi, state, country, shape ));
-      //removeTableBody();
+      removeTableBody();
       filteredData.forEach(displaySightingData);
-    }
+    }*/
   });
 
 
@@ -81,13 +81,13 @@ function displaySightingData(sightings)
   });
 
 
-  function filterDataByDate(date, city, state)
+  function filterDataByDate(date, city, state, country, shape)
   {
-    return allData.filter(dt => dt.datetime == date && dt.city == city  && dt.state == state  )
+    return allData.filter(dt => dt.datetime == date && dt.city == city  && dt.state == state&& dt.country == country  && dt.shape == shape )
   }
   
 
   function removeTableBody(){
-    var emptyData =[];
-    emptyData.forEach(displaySightingData);
+    d3.event.preventDefault();
+    $tbody.html("");
   }
